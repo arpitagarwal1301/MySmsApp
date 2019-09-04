@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MySmsApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="sms_to_hint">To :</string>
+    <string name="sms_send_message_hint">Send Message</string>
+    <string name="sms_send_btn">Send</string>
+    <string name="sms_permission_rationale">Need permission to send sms</string>
+</resources>

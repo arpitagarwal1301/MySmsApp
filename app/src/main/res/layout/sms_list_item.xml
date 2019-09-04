@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/sms_item_padding"
+    tools:context=".SmsHomeActivity">
+
+    <TextView
+        android:id="@+id/icon_text"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="@dimen/sms_item_padding"
+        android:background="@drawable/sms_icon_circle"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="A"
+        android:textAllCaps="true"/>
+
+    <TextView
+        android:id="@+id/sms_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sms_item_padding"
+        app:layout_constraintStart_toEndOf="@+id/icon_text"
+        app:layout_constraintTop_toTopOf="@+id/icon_text"
+        tools:text="TextView"/>
+
+    <TextView
+        android:id="@+id/sms_mssg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/icon_text"
+        app:layout_constraintStart_toStartOf="@+id/sms_header"
+        tools:text="TextView"/>
+
+    <TextView
+        android:id="@+id/time_stamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/sms_item_padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sms_header"
+        tools:text="TextView"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/sms_item_padding"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sms_mssg" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
