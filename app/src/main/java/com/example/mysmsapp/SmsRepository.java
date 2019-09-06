@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
@@ -15,37 +14,27 @@ import java.util.List;
 
 public class SmsRepository {
 
-    private MutableLiveData<List<SmsEntity>> mAllSms  = new MutableLiveData<>();
+    private MutableLiveData<List<SmsEntity>> mAllSms = new MutableLiveData<>();
     private Context mAppContext;
-    private LoadSms loadSms = new LoadSms();
 
     SmsRepository(Application application) {
         mAppContext = application;
-        loadSms.execute();
     }
 
-
-
     MutableLiveData<List<SmsEntity>> getAllWords() {
+        LoadSms loadSms = new LoadSms();
+        loadSms.execute();
         return mAllSms;
     }
 
-
-    public void insert (SmsEntity smsEntity) {
-        new insertAsyncTask(mAppContext).execute(smsEntity);
-         // To update the list
+    public void insert(SmsEntity smsEntity) {
+        new insertAsyncTask().execute(smsEntity);
     }
 
-    private class insertAsyncTask extends AsyncTask<SmsEntity, Void, SmsEntity> {
-
-        private Context mContext;
-
-        public insertAsyncTask(Context mAppContext) {
-            mContext = mAppContext;
-        }
+    private class insertAsyncTask extends AsyncTask<SmsEntity, Void, Void> {
 
         @Override
-        protected SmsEntity doInBackground(SmsEntity... sms) {
+        protected Void doInBackground(SmsEntity... sms) {
             Uri newUri;
             ContentValues newValues = new ContentValues();
 
@@ -53,17 +42,13 @@ public class SmsRepository {
             newValues.put(AppConstants.KEY_DATE, sms[0].getDate());
             newValues.put(AppConstants.KEY_ADDRESS, sms[0].getAddress());
 
-            newUri = mContext.getContentResolver().insert(
+            newUri = mAppContext.getContentResolver().insert(
                     Uri.parse("content://sms/sent"),
                     newValues
             );
             return null;
         }
 
-        @Override
-        protected void onPostExecute(SmsEntity smsEntity) {
-            //getAllWords();
-        }
     }
 
     class LoadSms extends AsyncTask<String, Void, List<SmsEntity>> {
@@ -119,25 +104,9 @@ public class SmsRepository {
 
         @Override
         protected void onPostExecute(List<SmsEntity> list) {
-
-//            if(!tmpList.equals(smsList))
-//            {
-//                adapter = new InboxAdapter(MainActivity.this, smsList);
-//                listView.setAdapter(adapter);
-//                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    public void onItemClick(AdapterView<?> parent, View view,
-//                                            final int position, long id) {
-//                        Intent intent = new Intent(MainActivity.this, Chat.class);
-//                        intent.putExtra("name", smsList.get(+position).get(Function.KEY_NAME));
-//                        intent.putExtra("address", tmpList.get(+position).get(Function.KEY_PHONE));
-//                        intent.putExtra("thread_id", smsList.get(+position).get(Function.KEY_THREAD_ID));
-//                        startActivity(intent);
-//                    }
-//                });
-//            }
-//            adapter.notifyDataSetChanged();
             mAllSms.postValue(list);
         }
     }
 
 }
+

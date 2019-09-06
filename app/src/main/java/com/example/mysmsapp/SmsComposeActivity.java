@@ -2,10 +2,8 @@ package com.example.mysmsapp;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
@@ -51,8 +49,7 @@ public class SmsComposeActivity extends AppCompatActivity {
 
                 if (sendSMS(msg,address)) {
                     Utils.showToast(view.getContext(), "Message sent");
-//                    addToContentProvider(toEditText.getText().toString().trim(), msgEditText.getText().toString().trim());
-                    smsViewModel.insert(new SmsEntity("", "", address, "", "", msg));
+                    smsViewModel.insert(new SmsEntity(address,  msg));
                 } else {
                     Utils.showToast(view.getContext(), "Message not sent");
                 }

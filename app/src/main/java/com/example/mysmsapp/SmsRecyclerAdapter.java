@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SmsRecyclerAdapter extends BaseRecyclerAdapter<SmsRecyclerAdapter.CustomViewHolder,SmsEntity> {
@@ -27,11 +26,6 @@ public class SmsRecyclerAdapter extends BaseRecyclerAdapter<SmsRecyclerAdapter.C
         return new CustomViewHolder(view);
     }
 
-//    public void setData(List<SmsEntity> newData) {
-//        adapterList.clear();
-//        adapterList.addAll(newData);
-//        notifyDataSetChanged();
-//    }
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {

@@ -4,8 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,11 +15,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.view.View;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class SmsHomeActivity extends AppCompatActivity implements SmsBroadcastReceiver.SmsListener {
@@ -41,8 +38,7 @@ public class SmsHomeActivity extends AppCompatActivity implements SmsBroadcastRe
         setContentView(R.layout.sms_home);
 
         SmsBroadcastReceiver.setListener(this);
-//        setUpView();
-//        initData();
+        setUpView();
 
     }
 
@@ -73,9 +69,23 @@ public class SmsHomeActivity extends AppCompatActivity implements SmsBroadcastRe
         });
         contentRecyclerView.setAdapter(adapter);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!Utils.hasPermissions(this, PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION_KEY);
+        } else {
+            initViewHolder();
+        }
+    }
+
+
+    public void initViewHolder(){
         smsViewModel = ViewModelProviders.of(this).get(SmsViewModel.class);
         smsViewModel.getAllSms().observe(this, observer);
-
     }
 
     Observer observer = new Observer<List<SmsEntity>>() {
@@ -90,24 +100,11 @@ public class SmsHomeActivity extends AppCompatActivity implements SmsBroadcastRe
     };
 
 
-
     @Override
     public void onTextReceived(String add,String msg) {
-        smsViewModel.insert(new SmsEntity("", "", add, "", "", msg));
+        smsViewModel.insert(new SmsEntity( add,  msg));
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (!Utils.hasPermissions(this, PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION_KEY);
-        } else {
-            setUpView();
-        }
-
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -116,7 +113,7 @@ public class SmsHomeActivity extends AppCompatActivity implements SmsBroadcastRe
         switch (requestCode) {
             case REQUEST_PERMISSION_KEY:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    setUpView();
+                    initViewHolder();
                 } else {
                     Utils.showToast(this, "You must accept permissions for app to function properly");
                 }

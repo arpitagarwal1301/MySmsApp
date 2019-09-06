@@ -20,6 +20,16 @@ public class SmsEntity {
         this.msg = msg;
     }
 
+    public SmsEntity(String address, String msg) {
+        this.address = address;
+        this.msg = msg;
+
+        this.id = "";
+        this.threadId = "";
+        this.type = "";
+        this.date = "";
+    }
+
     public String getId() {
         return id;
     }
