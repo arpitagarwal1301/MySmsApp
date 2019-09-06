@@ -28,15 +28,19 @@
         android:layout_marginStart="@dimen/sms_item_padding"
         app:layout_constraintStart_toEndOf="@+id/icon_text"
         app:layout_constraintTop_toTopOf="@+id/icon_text"
-        tools:text="TextView"/>
+        tools:text="TextView" />
 
     <TextView
         android:id="@+id/sms_mssg"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginEnd="@dimen/sms_item_padding"
         app:layout_constraintBottom_toBottomOf="@+id/icon_text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/sms_header"
-        tools:text="TextView"/>
+        tools:text="TextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextView" />
 
     <TextView
         android:id="@+id/time_stamp"
