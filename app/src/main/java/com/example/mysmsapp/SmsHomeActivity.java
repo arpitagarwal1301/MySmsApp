@@ -31,7 +31,7 @@ public class SmsHomeActivity extends AppCompatActivity implements SmsBroadcastRe
 
     private static final int REQUEST_PERMISSION_KEY = 0;
 
-    private final String PERMISSIONS[] = new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.READ_PHONE_STATE};
+    private final String PERMISSIONS[] = new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS,Manifest.permission.READ_PHONE_STATE};
     private SmsViewModel smsViewModel;
 
 
@@ -40,11 +40,9 @@ public class SmsHomeActivity extends AppCompatActivity implements SmsBroadcastRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sms_home);
 
-        smsViewModel = ViewModelProviders.of(this).get(SmsViewModel.class);
-
         SmsBroadcastReceiver.setListener(this);
-        setUpView();
-        initData();
+//        setUpView();
+//        initData();
 
     }
 
@@ -75,38 +73,22 @@ public class SmsHomeActivity extends AppCompatActivity implements SmsBroadcastRe
         });
         contentRecyclerView.setAdapter(adapter);
 
+        smsViewModel = ViewModelProviders.of(this).get(SmsViewModel.class);
         smsViewModel.getAllSms().observe(this, observer);
-
 
     }
 
     Observer observer = new Observer<List<SmsEntity>>() {
         @Override
-        public void onChanged(@Nullable final List<SmsEntity> words) {
-            // Update the cached copy of the words in the adapter.
-            mAdapterList.clear();
-            mAdapterList.addAll(words);
+        public void onChanged(@Nullable final List<SmsEntity> smsEntityList) {
 
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.notifyDataSetChanged();
-                }
-            });
+            mAdapterList.clear();
+            mAdapterList.addAll(smsEntityList);
+            adapter.notifyDataSetChanged();
+
         }
     };
 
-
-    private void initData() {
-
-//        smsViewModel.getAllSms().
-//        observer.notifyAll();
-
-//        List<SmsEntity> list = (List<SmsEntity>) smsViewModel.getAllSms().getValue();
-//        adapter.setData(list);
-
-
-    }
 
 
     @Override
@@ -122,7 +104,7 @@ public class SmsHomeActivity extends AppCompatActivity implements SmsBroadcastRe
         if (!Utils.hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION_KEY);
         } else {
-            initData();
+            setUpView();
         }
 
     }
@@ -134,7 +116,7 @@ public class SmsHomeActivity extends AppCompatActivity implements SmsBroadcastRe
         switch (requestCode) {
             case REQUEST_PERMISSION_KEY:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    initData();
+                    setUpView();
                 } else {
                     Utils.showToast(this, "You must accept permissions for app to function properly");
                 }

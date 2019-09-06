@@ -15,15 +15,16 @@ import java.util.List;
 
 public class SmsRepository {
 
-    private MutableLiveData<List<SmsEntity>> mAllSms = new MutableLiveData<>();
+    private MutableLiveData<List<SmsEntity>> mAllSms  = new MutableLiveData<>();
     private Context mAppContext;
     private LoadSms loadSms = new LoadSms();
 
     SmsRepository(Application application) {
         mAppContext = application;
         loadSms.execute();
-
     }
+
+
 
     MutableLiveData<List<SmsEntity>> getAllWords() {
         return mAllSms;
@@ -61,7 +62,7 @@ public class SmsRepository {
 
         @Override
         protected void onPostExecute(SmsEntity smsEntity) {
-            getAllWords();
+            //getAllWords();
         }
     }
 

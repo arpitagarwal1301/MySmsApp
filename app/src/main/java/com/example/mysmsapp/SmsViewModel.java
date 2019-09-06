@@ -13,12 +13,12 @@ public class SmsViewModel extends AndroidViewModel {
 
 
     private SmsRepository mRepository;
-    private LiveData<List<SmsEntity>> mAllSms;
+//    private LiveData<List<SmsEntity>> mAllSms;
 
     public SmsViewModel(@NonNull Application application) {
         super(application);
         mRepository = new SmsRepository(application);
-        mAllSms = mRepository.getAllWords();
+//        mAllSms = mRepository.getAllWords();
     }
 
     public void insert(SmsEntity sms) {
